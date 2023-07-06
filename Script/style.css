@@ -1,0 +1,40 @@
+:root {
+  --pastel-green: rgb(193, 225, 193);
+  --pastel-grey: rgb(207, 207, 196);
+  --font: "ZCOOL KuaiLe", sans-serif;
+}
+
+.hidden {
+  display: none;
+}
+
+body {
+  background-image: url("../Assets/start-menu.png");
+}
+
+.btn {
+  position: relative;
+  top: 800px;
+  font-family: var(--font);
+  font-size: 25px;
+  color: black;
+  height: 45px;
+  /* transition: 5s; */
+}
+
+.start-btn {
+  background-color: var(--pastel-green);
+  border-color: var(--pastel-green);
+}
+
+.tutorial-btn {
+  background-color: var(--pastel-grey);
+  border-color: var(--pastel-grey);
+}
+
+.logo {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 50px;
+}
