@@ -12,5 +12,5 @@ playBtn.addEventListener("click", function () {
 
   gameScreen.classList.remove("hidden");
 
-  gameScreen.innerText = `${p1Name.value} VS ${p2Name.value}`;
+  // gameScreen.innerText = `${p1Name.value} VS ${p2Name.value}`;
 });

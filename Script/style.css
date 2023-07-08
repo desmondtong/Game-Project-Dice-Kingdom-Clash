@@ -23,7 +23,8 @@ body {
   /* transition: 5s; */
 }
 
-.start-btn, .play-btn {
+.start-btn,
+.play-btn {
   background-color: var(--pastel-green);
   border-color: var(--pastel-green);
 }
@@ -41,13 +42,15 @@ body {
 }
 
 /* START GAME & TUTORIAL MODAL */
-.modal-footer button,
-.btn-dice {
+.modal-footer button {
   top: 0px;
 }
 
 .modal-body {
   height: 320px;
+}
+
+p {
   font-family: var(--font);
 }
 
@@ -73,11 +76,72 @@ span {
   height: 500px;
 }
 
-.col {
-  border-style: solid;
+/* GAME SCREEN */
+.header-row {
+  height: 50px;
 }
 
-.btn-layout {
+/* div {
+  border-style: solid;
+} */
+
+#p1-tower,
+#p2-tower {
+  display: grid;
+  grid-template-rows: repeat(10, 50px);
+  grid-template-columns: repeat(5, 50px);
+
+  justify-content: center;
+  transform: rotate(180deg);
+}
+
+.timer {
+  height: 80px;
+}
+
+.turn-counter {
   display: flex;
-  justify-content: space-around;
+  justify-content: center;
+  margin: 10px 0;
+}
+
+.counter {
+  background-color: var(--pastel-grey);
+  height: 15px;
+  width: 15px;
+  margin: 0 5px;
+}
+
+.power-dice-picker {
+  height: 150px;
+  align-content: center;
+  justify-content: center;
+}
+
+.dice-png {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+#p1-cannon-dice,
+#p2-cannon-dice {
+  display: grid;
+  grid-template-rows: repeat(1, 100px);
+  grid-template-columns: 100px 50px 100px 50px 80px;
+
+  justify-content: center;
+  align-items: center;
+}
+
+.cannon-dice {
+  font-size: 40px;
+  margin: 0;
+}
+
+.brown-dice-png {
+  width: 80%;
+  height: 80%;
+  object-fit: cover;
+  justify-self: center;
 }
