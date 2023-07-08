@@ -1,7 +1,7 @@
 const body = document.querySelector("body");
 const startMenu = document.querySelector(".start-menu");
 const gameScreen = document.querySelector(".game-screen");
-const playBtn = document.querySelector("#startGameModal .btn-primary");
+const playBtn = document.querySelector(".play-btn");
 
 const p1Name = document.querySelector("#p1Name");
 const p2Name = document.querySelector("#p2Name");

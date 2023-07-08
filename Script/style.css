@@ -23,7 +23,7 @@ body {
   /* transition: 5s; */
 }
 
-.start-btn {
+.start-btn, .play-btn {
   background-color: var(--pastel-green);
   border-color: var(--pastel-green);
 }
@@ -41,12 +41,12 @@ body {
 }
 
 /* START GAME & TUTORIAL MODAL */
-.modal-footer button {
+.modal-footer button,
+.btn-dice {
   top: 0px;
 }
 
-#startGameModal .modal-body,
-#tutorialModal .modal-body {
+.modal-body {
   height: 320px;
   font-family: var(--font);
 }
@@ -63,4 +63,21 @@ body {
 
 #startGameModal input {
   margin: 20px;
+}
+
+span {
+  color: blue;
+}
+
+#tutorialModal .modal-body {
+  height: 500px;
+}
+
+.col {
+  border-style: solid;
+}
+
+.btn-layout {
+  display: flex;
+  justify-content: space-around;
 }
