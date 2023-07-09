@@ -2,11 +2,16 @@
   --pastel-green: rgb(193, 225, 193);
   --pastel-grey: rgb(207, 207, 196);
   --pastel-yellow: rgb(255, 250, 160);
+  --pastel-blue: rgb(167, 199, 231);
   --font: "ZCOOL KuaiLe", sans-serif;
 }
 
 .hidden {
   display: none;
+}
+
+.unactive {
+  opacity: 30%;
 }
 
 body {
@@ -17,11 +22,15 @@ body {
 
 .btn {
   position: relative;
-  /* top: 660px; RECHECK TO STYLE IN %???*/
   font-family: var(--font);
   font-size: 25px;
   color: black;
   height: 45px;
+}
+
+.start-btn,
+.tutorial-btn {
+  top: 660px;
 }
 
 .start-btn,
@@ -43,15 +52,13 @@ body {
 }
 
 /* START GAME & TUTORIAL MODAL */
-/* .modal-footer button {
-  top: 0px;
-} */
 
 .modal-body {
   height: 320px;
 }
 
-p {
+p,
+h3 {
   font-family: var(--font);
 }
 
@@ -70,11 +77,18 @@ p {
 }
 
 span {
-  color: blue;
+  color: var(--pastel-blue);
 }
 
 #tutorialModal .modal-body {
-  height: 500px;
+  height: 530px;
+}
+
+.power-dice-tuto {
+  display: grid;
+  grid-template-rows: repeat(1, 80px);
+  grid-template-columns: repeat(4, 80px);
+  align-items: center;
 }
 
 /* GAME SCREEN */
@@ -102,7 +116,7 @@ p {
   font-size: 50px;
   width: 50%;
   background-color: aliceblue;
-  border-style:solid;
+  border-style: solid;
   border-width: 3px;
   margin: 0 auto;
 }
@@ -186,8 +200,4 @@ p {
   height: 100px;
 
   margin: 20px 0 0 0;
-}
-
-.unactive {
-  opacity: 30%;
 }
