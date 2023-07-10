@@ -34,8 +34,8 @@ const p2Name = document.querySelector("#p2Name");
 
 // Initialize variables
 const timeEachRound = 5;
-const maxHP = 32;
-let interval, randomPowerDice, takeDamage;
+const maxHP = 50;
+let interval, randomPowerDice, takeDamage, towerArr;
 let cannonDice = [];
 let round = 1;
 let currPlayer = 1;
@@ -92,11 +92,11 @@ function generateCannonDice(player) {
       <p class="cannon-dice" id="p${player}-shots">?</p>`;
 }
 
-function displayStartMsg(p1, p2) {
-  document.querySelector("main .display-msg").innerHTML = `<h1>
-  <span class="display-msg">START!</span><br />${p1} VS ${p2}
-</h1>`;
-}
+// function displayStartMsg(p1, p2) {
+//   document.querySelector("main .display-msg").innerHTML = `<h1>
+//   <span class="display-msg">START!</span><br />${p1} VS ${p2}
+// </h1>`;
+// }
 
 function gameTimer() {
   interval = setInterval(() => {
@@ -163,7 +163,20 @@ function switchPlayer() {
 
 function attackTower(nosOfShots) {
   takeDamage = currPlayer === 1 ? 2 : 1;
-  towerHp[`p${takeDamage}Hp`].textContent -= nosOfShots;
+  towerHp[`p${takeDamage}Hp`].textContent = Math.max(
+    towerHp[`p${takeDamage}Hp`].textContent - nosOfShots,
+    0
+  );
+
+  towerArr = towers[`p${takeDamage}Tower`].innerHTML.split("\n");
+  towerNew = towerArr.splice(0, towerArr.length - nosOfShots).join("\n");
+  towers[`p${takeDamage}Tower`].innerHTML = towerNew;
+
+  if (towerHp[`p${takeDamage}Hp`].textContent == 0) {
+    clearInterval(interval);
+    console.log(`PLAYER ${currPlayer} WIN!!`);
+    return true;
+  }
 }
 
 function powerDice() {
@@ -234,9 +247,10 @@ playerCannon.addEventListener("click", function (e) {
   document.querySelector(`#p${currPlayer}-shots`).textContent =
     cannonDice[0] * cannonDice[1];
 
-  attackTower(cannonDice[0] * cannonDice[1]);
+  if (attackTower(cannonDice[0] * cannonDice[1])) return;
+
   gameTimer();
 });
 
 init();
-// gameTimer();
+gameTimer();
