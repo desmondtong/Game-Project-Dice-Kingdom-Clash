@@ -4,6 +4,7 @@ const startMenu = document.querySelector(".start-menu");
 const gameScreen = document.querySelector(".game-screen");
 const playBtn = document.querySelector(".play-btn");
 
+const timer = document.querySelector(".timer");
 const counter = document.querySelectorAll(".counter");
 const powerDiceDeck = document.querySelector(".power-dice-deck");
 const powerDiceBtn = document.querySelector("#power-dice-btn");
@@ -11,8 +12,10 @@ const powerDiceBtn = document.querySelector("#power-dice-btn");
 const cannons = {
   p1Cannon: document.querySelector("#p1-cannon"),
   p1CannonBtn: document.querySelector("#p1-cannon-btn"),
+  p1CannonDice: document.querySelector("#p1-cannon-dice"),
   p2Cannon: document.querySelector("#p2-cannon"),
   p2CannonBtn: document.querySelector("#p2-cannon-btn"),
+  p2CannonDice: document.querySelector("#p2-cannon-dice"),
 };
 
 const towers = {
@@ -39,6 +42,8 @@ function init() {
     el.classList.add("inactive");
   }
 
+  timer.textContent = `0:${gameTime}`;
+
   powerDiceDeck.classList.add("inactive");
   powerDiceBtn.classList.add("disabled");
 
@@ -48,18 +53,33 @@ function init() {
   for (tower of Object.values(towers)) {
     tower.innerHTML = generateTower();
   }
+
+  cannons.p1CannonDice.innerHTML = generateCannonDice();
+  cannons.p2CannonDice.innerHTML = generateCannonDice();
 }
 
 function generateTower() {
-  let tower = [];
+  let content = [];
   for (let i = 0; i < 50; i++) {
-    tower.push(
+    content.push(
       `<img src="../Assets/dice-1/dice-${Math.ceil(
         Math.random() * 6
       )}.png" class="dice-png" />`
     );
   }
-  return tower.join("");
+  return content.join("");
+}
+
+function generateCannonDice() {
+  return `<img src="../Assets/brown dice/${Math.ceil(
+    Math.random() * 6
+  )}.png" class="brown-dice-png" />
+    <p class="cannon-dice">X</p>
+    <img src="../Assets/brown dice/${Math.ceil(
+      Math.random() * 6
+    )}.png" class="brown-dice-png" />
+    <p class="cannon-dice">=</p>
+    <p class="cannon-dice" id="p1-shots">?</p>`;
 }
 
 // Event button
