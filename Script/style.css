@@ -119,6 +119,7 @@ span {
 /* GAME SCREEN */
 .header-row {
   height: 50px;
+  /* margin: 5px 0 0 0; */
 }
 
 /* div,
@@ -225,4 +226,11 @@ p {
   height: 100px;
 
   margin: 20px 0 0 0;
+}
+
+.chosen {
+  border-style: solid;
+  border-color: var(--pastel-yellow);
+  border-radius: 15px;
+  border-width: 5px;
 }

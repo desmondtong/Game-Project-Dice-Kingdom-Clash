@@ -9,6 +9,7 @@ const counter = document.querySelectorAll(".counter");
 const powerDiceDeck = document.querySelector(".power-dice-deck");
 const powerDiceBtn = document.querySelector("#power-dice-btn");
 
+const playerCannon = document.querySelector("#player-cannon");
 const cannons = {
   p1Cannon: document.querySelector("#p1-cannon"),
   p1CannonBtn: document.querySelector("#p1-cannon-btn"),
@@ -23,11 +24,18 @@ const towers = {
   p2Tower: document.querySelector("#p2-tower"),
 };
 
+const towerHp = {
+  p1Hp: document.querySelector("#p1-hp"),
+  p2Hp: document.querySelector("#p2-hp"),
+};
+
 const p1Name = document.querySelector("#p1Name");
 const p2Name = document.querySelector("#p2Name");
 
 // Initialize variables
 const timeEachRound = 1;
+const maxHP = 32;
+let interval, randomPowerDice;
 let round = 1;
 let currPlayer = 1;
 let gameTime = timeEachRound;
@@ -51,23 +59,26 @@ function init() {
   cannons.p2CannonBtn.classList.add("disabled");
 
   for (tower of Object.values(towers)) {
-    tower.innerHTML = generateTower();
+    tower.innerHTML = generateTower(maxHP);
   }
+
+  towerHp.p1Hp.textContent = maxHP;
+  towerHp.p2Hp.textContent = maxHP;
 
   cannons.p1CannonDice.innerHTML = generateCannonDice();
   cannons.p2CannonDice.innerHTML = generateCannonDice();
 }
 
-function generateTower() {
+function generateTower(maxHP) {
   let content = [];
-  for (let i = 0; i < 50; i++) {
+  for (let i = 0; i < maxHP; i++) {
     content.push(
       `<img src="../Assets/dice/dice-${Math.ceil(
         Math.random() * 6
       )}.png" class="dice-png" />`
     );
   }
-  return content.join("");
+  return content.join("\n");
 }
 
 function generateCannonDice() {
@@ -99,7 +110,7 @@ function playGame() {
 }
 
 function gameTimer() {
-  let interval = setInterval(() => {
+  interval = setInterval(() => {
     if (timer.textContent > 0 && round <= 8) {
       timer.textContent--;
     } else if (round <= 8) {
@@ -134,13 +145,51 @@ function switchPlayer() {
   currPlayer = currPlayer === 1 ? 2 : 1;
   console.log(`SWITCHED TO PLAYER ${currPlayer}`);
 
+  // enable/disable power dice deck
+  if (round === 3 || round === 6) {
+    cannons["p1Cannon"].classList.add("inactive");
+    cannons["p1CannonBtn"].classList.add("disabled");
+    cannons["p2Cannon"].classList.add("inactive");
+    cannons["p2CannonBtn"].classList.add("disabled");
+
+    powerDiceDeck.classList.remove("inactive");
+    powerDiceBtn.classList.remove("disabled");
+    clearInterval(interval);
+    return;
+  }
+
   // enable next player button
   cannons[`p${currPlayer}Cannon`].classList.remove("inactive");
   cannons[`p${currPlayer}CannonBtn`].classList.remove("disabled");
 }
 
+function powerDice() {
+  randomPowerDice = Math.ceil(Math.random() * 4);
+  document
+    .querySelector(`#power-dice-${randomPowerDice}`)
+    .classList.add("chosen");
+
+  switch (randomPowerDice) {
+    case 1:
+      console.log("dice1");
+      break;
+    case 2:
+      console.log("dice2");
+      break;
+    case 3:
+      console.log("dice3");
+      break;
+    case 4:
+      console.log("dice4");
+      break;
+  }
+}
+
 // Event button
 playBtn.addEventListener("click", function () {
+  e.preventDefault();
+  if (e.target.tagName !== "BUTTON") return;
+
   startMenu.classList.add("hidden");
   body.style.background = "url(' ')";
   body.style.backgroundColor = "var(--pastel-brown)";
@@ -152,7 +201,29 @@ playBtn.addEventListener("click", function () {
   gameTimer();
 });
 
-// cannons.p1CannonBtn.addEventListener("click", playGame);
+powerDiceBtn.addEventListener("click", function (e) {
+  e.preventDefault();
+  if (e.target.tagName !== "BUTTON") return;
 
-init();
-gameTimer();
+  powerDiceDeck.classList.add("inactive");
+  powerDiceBtn.classList.add("disabled");
+
+  powerDice();
+
+  // after roll power dice then enable currPlayer button
+  cannons[`p${currPlayer}Cannon`].classList.remove("inactive");
+  cannons[`p${currPlayer}CannonBtn`].classList.remove("disabled");
+
+  gameTimer();
+});
+
+playerCannon.addEventListener("click", function (e) {
+  e.preventDefault();
+  if (e.target.tagName !== "BUTTON") return;
+
+  cannons[`p${currPlayer}CannonBtn`].classList.add("disabled");
+  clearInterval(interval);
+});
+
+// init();
+// gameTimer();
