@@ -34,8 +34,8 @@ const towerHp = {
 const resultMsg = document.querySelector(".result-msg");
 
 // Initialize variables
-const timeEachRound = 1;
-const maxHP = 10;
+const timeEachRound = 5;
+const maxHP = 50;
 let interval, randomPowerDice, takeDamage, towerArr, towerN;
 let cannonDice = [];
 let round = 1;
