@@ -27,7 +27,7 @@ const p1Name = document.querySelector("#p1Name");
 const p2Name = document.querySelector("#p2Name");
 
 // Initialize variables
-const timeEachRound = 10;
+const timeEachRound = 1;
 let round = 1;
 let currPlayer = 1;
 let gameTime = timeEachRound;
@@ -38,11 +38,11 @@ function init() {
   currPlayer = 1;
   gameTime = timeEachRound;
 
-  for (el of counter) {
-    el.classList.add("inactive");
+  for (let el = 1; el < counter.length; el++) {
+    counter[el].classList.add("inactive");
   }
 
-  timer.textContent = `0:${gameTime}`;
+  timer.textContent = gameTime;
 
   powerDiceDeck.classList.add("inactive");
   powerDiceBtn.classList.add("disabled");
@@ -62,7 +62,7 @@ function generateTower() {
   let content = [];
   for (let i = 0; i < 50; i++) {
     content.push(
-      `<img src="../Assets/dice-1/dice-${Math.ceil(
+      `<img src="../Assets/dice/dice-${Math.ceil(
         Math.random() * 6
       )}.png" class="dice-png" />`
     );
@@ -82,6 +82,63 @@ function generateCannonDice() {
     <p class="cannon-dice" id="p1-shots">?</p>`;
 }
 
+function displayStartMsg(p1, p2) {
+  document.querySelector("main .display-msg").innerHTML = `<h1>
+  <span class="display-msg">START!</span><br />${p1} VS ${p2}
+</h1>`;
+}
+
+function playGame() {
+  if (timer.textContent === 0) {
+    switchPlayer();
+  } else {
+    //roll dice
+    //deduct hp
+    //powerdice
+  }
+}
+
+function gameTimer() {
+  let interval = setInterval(() => {
+    if (timer.textContent > 0 && round <= 8) {
+      timer.textContent--;
+    } else if (round <= 8) {
+      timer.textContent = gameTime;
+      switchPlayer();
+    } else {
+      timer.textContent = 0;
+      console.log(`TIMER STOP`);
+      clearInterval(interval);
+    }
+  }, 1000);
+  // add condtion when HP = 0 then timer stop!!
+}
+
+function switchPlayer() {
+  // disable current player button
+  cannons[`p${currPlayer}Cannon`].classList.add("inactive");
+  cannons[`p${currPlayer}CannonBtn`].classList.add("disabled");
+
+  // update round counter
+  if (currPlayer === 2 && round < 8) {
+    counter[round].classList.remove("inactive");
+    round++;
+    console.log(`now is round ${round}`);
+  } else if (currPlayer === 2 && round === 8) {
+    console.log("GAME FINISHED");
+    round++;
+    return;
+  }
+
+  // switch player
+  currPlayer = currPlayer === 1 ? 2 : 1;
+  console.log(`SWITCHED TO PLAYER ${currPlayer}`);
+
+  // enable next player button
+  cannons[`p${currPlayer}Cannon`].classList.remove("inactive");
+  cannons[`p${currPlayer}CannonBtn`].classList.remove("disabled");
+}
+
 // Event button
 playBtn.addEventListener("click", function () {
   startMenu.classList.add("hidden");
@@ -89,6 +146,13 @@ playBtn.addEventListener("click", function () {
   body.style.backgroundColor = "var(--pastel-brown)";
 
   gameScreen.classList.remove("hidden");
+
+  // displayStartMsg(p1Name, p2Name);
+  init();
+  gameTimer();
 });
 
+// cannons.p1CannonBtn.addEventListener("click", playGame);
+
 init();
+gameTimer();
