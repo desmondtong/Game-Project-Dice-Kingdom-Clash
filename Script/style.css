@@ -3,6 +3,7 @@
   --pastel-grey: rgb(207, 207, 196);
   --pastel-yellow: rgb(255, 250, 160);
   --pastel-blue: rgb(167, 199, 231);
+  --pastel-brown: #ebe8e8;
   --font: "ZCOOL KuaiLe", sans-serif;
 }
 
@@ -10,13 +11,13 @@
   display: none;
 }
 
-.unactive {
+.inactive {
   opacity: 30%;
 }
 
 body {
   /* background: url("../Assets/start-menu.png"); */
-  background-color: #ebe8e8;
+  background-color: var(--pastel-brown);
   background-size: cover;
 }
 
