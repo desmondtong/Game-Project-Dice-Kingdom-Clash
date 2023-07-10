@@ -3,6 +3,8 @@ const body = document.querySelector("body");
 const startMenu = document.querySelector(".start-menu");
 const gameScreen = document.querySelector(".game-screen");
 const playBtn = document.querySelector(".play-btn");
+const playAgainBtn = document.querySelector(".play-again-btn");
+const exitBtn = document.querySelector(".exit-btn");
 
 const timer = document.querySelector(".timer");
 const counter = document.querySelectorAll(".counter");
@@ -29,17 +31,17 @@ const towerHp = {
   p2Hp: document.querySelector("#p2-hp"),
 };
 
-const p1Name = document.querySelector("#p1Name");
-const p2Name = document.querySelector("#p2Name");
+const resultMsg = document.querySelector(".result-msg");
 
 // Initialize variables
-const timeEachRound = 5;
-const maxHP = 50;
-let interval, randomPowerDice, takeDamage, towerArr;
+const timeEachRound = 1;
+const maxHP = 10;
+let interval, randomPowerDice, takeDamage, towerArr, towerN;
 let cannonDice = [];
 let round = 1;
 let currPlayer = 1;
 let gameTime = timeEachRound;
+let playerName = {};
 
 // Function
 function init() {
@@ -56,6 +58,8 @@ function init() {
   powerDiceDeck.classList.add("inactive");
   powerDiceBtn.classList.add("disabled");
 
+  cannons.p1Cannon.classList.remove("inactive");
+  cannons.p1CannonBtn.classList.remove("disabled");
   cannons.p2Cannon.classList.add("inactive");
   cannons.p2CannonBtn.classList.add("disabled");
 
@@ -98,6 +102,26 @@ function generateCannonDice(player) {
 // </h1>`;
 // }
 
+function startGame() {
+  event.preventDefault();
+  if (event.target.tagName !== "BUTTON") return;
+
+  playerName = {
+    p1Name: document.querySelector("#p1Name").value,
+    p2Name: document.querySelector("#p2Name").value,
+  };
+
+  startMenu.classList.add("hidden");
+  body.style.background = "url(' ')";
+  body.style.backgroundColor = "var(--pastel-brown)";
+
+  gameScreen.classList.remove("hidden");
+
+  // displayStartMsg(p1Name, p2Name);
+  init();
+  gameTimer();
+}
+
 function gameTimer() {
   interval = setInterval(() => {
     if (
@@ -110,7 +134,7 @@ function gameTimer() {
       timer.textContent--;
     } else {
       timer.textContent = 0;
-      console.log(`TIMER STOP`);
+      displayResult(true);
       clearInterval(interval);
     }
   }, 1000);
@@ -147,7 +171,7 @@ function switchPlayer() {
     powerDiceDeck.classList.remove("inactive");
     powerDiceBtn.classList.remove("disabled");
 
-    // init powert dice deck
+    // init power dice deck
     for (let i = 1; i <= 4; i++) {
       document.querySelector(`#power-dice-${i}`).classList.remove("chosen");
     }
@@ -174,7 +198,8 @@ function attackTower(nosOfShots) {
 
   if (towerHp[`p${takeDamage}Hp`].textContent == 0) {
     clearInterval(interval);
-    console.log(`PLAYER ${currPlayer} WIN!!`);
+
+    displayResult();
     return true;
   }
 }
@@ -201,21 +226,19 @@ function powerDice() {
   }
 }
 
+function displayResult(tie = false) {
+  if (tie) {
+    resultMsg.innerText = `IT'S A TIE!`;
+    new bootstrap.Modal(document.querySelector("#resultModal")).show();
+  } else {
+    resultMsg.textContent = playerName[`p${currPlayer}Name`] + " WIN THE GAME!";
+    new bootstrap.Modal(document.querySelector("#resultModal")).show();
+  }
+}
+
 // Event button
-playBtn.addEventListener("click", function () {
-  e.preventDefault();
-  if (e.target.tagName !== "BUTTON") return;
-
-  startMenu.classList.add("hidden");
-  body.style.background = "url(' ')";
-  body.style.backgroundColor = "var(--pastel-brown)";
-
-  gameScreen.classList.remove("hidden");
-
-  // displayStartMsg(p1Name, p2Name);
-  init();
-  gameTimer();
-});
+playBtn.addEventListener("click", startGame);
+playAgainBtn.addEventListener("click", startGame);
 
 powerDiceBtn.addEventListener("click", function (e) {
   e.preventDefault();
@@ -252,5 +275,16 @@ playerCannon.addEventListener("click", function (e) {
   gameTimer();
 });
 
-init();
-gameTimer();
+exitBtn.addEventListener("click", function (e) {
+  e.preventDefault();
+  if (e.target.tagName !== "BUTTON") return;
+
+  startMenu.classList.remove("hidden");
+  body.style.background = "url('../Assets/start-menu.png')";
+  body.style.backgroundSize = "cover";
+
+  gameScreen.classList.add("hidden");
+});
+
+// init();
+// gameTimer();

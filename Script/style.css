@@ -21,7 +21,7 @@ html {
 }
 
 body {
-  /* background: url("../Assets/start-menu.png"); */
+  background: url("../Assets/start-menu.png");
   background-color: var(--pastel-brown);
   background-size: cover;
   width: 100%;
@@ -65,11 +65,19 @@ body {
   height: 320px;
 }
 
+#resultModal .modal-body {
+  height: 100px;
+}
+
 p,
 h1,
 h2,
 h3 {
   font-family: var(--font);
+}
+
+.result-msg{
+  text-align: center;
 }
 
 #startGameModal .btn,
@@ -119,7 +127,6 @@ span {
 /* GAME SCREEN */
 .header-row {
   height: 50px;
-  /* margin: 5px 0 0 0; */
 }
 
 /* div,
