@@ -33,9 +33,10 @@ const p1Name = document.querySelector("#p1Name");
 const p2Name = document.querySelector("#p2Name");
 
 // Initialize variables
-const timeEachRound = 1;
+const timeEachRound = 5;
 const maxHP = 32;
-let interval, randomPowerDice;
+let interval, randomPowerDice, takeDamage;
+let cannonDice = [];
 let round = 1;
 let currPlayer = 1;
 let gameTime = timeEachRound;
@@ -65,8 +66,8 @@ function init() {
   towerHp.p1Hp.textContent = maxHP;
   towerHp.p2Hp.textContent = maxHP;
 
-  cannons.p1CannonDice.innerHTML = generateCannonDice();
-  cannons.p2CannonDice.innerHTML = generateCannonDice();
+  cannons.p1CannonDice.innerHTML = generateCannonDice(1);
+  cannons.p2CannonDice.innerHTML = generateCannonDice(2);
 }
 
 function generateTower(maxHP) {
@@ -81,16 +82,14 @@ function generateTower(maxHP) {
   return content.join("\n");
 }
 
-function generateCannonDice() {
-  return `<img src="../Assets/brown dice/${Math.ceil(
-    Math.random() * 6
-  )}.png" class="brown-dice-png" />
-    <p class="cannon-dice">X</p>
-    <img src="../Assets/brown dice/${Math.ceil(
-      Math.random() * 6
-    )}.png" class="brown-dice-png" />
-    <p class="cannon-dice">=</p>
-    <p class="cannon-dice" id="p1-shots">?</p>`;
+function generateCannonDice(player) {
+  cannonDice[0] = Math.ceil(Math.random() * 6);
+  cannonDice[1] = Math.ceil(Math.random() * 6);
+  return `<img src="../Assets/brown dice/${cannonDice[0]}.png" class="brown-dice-png" />
+      <p class="cannon-dice">X</p>
+      <img src="../Assets/brown dice/${cannonDice[1]}.png" class="brown-dice-png" />
+      <p class="cannon-dice">=</p>
+      <p class="cannon-dice" id="p${player}-shots">?</p>`;
 }
 
 function displayStartMsg(p1, p2) {
@@ -99,23 +98,16 @@ function displayStartMsg(p1, p2) {
 </h1>`;
 }
 
-function playGame() {
-  if (timer.textContent === 0) {
-    switchPlayer();
-  } else {
-    //roll dice
-    //deduct hp
-    //powerdice
-  }
-}
-
 function gameTimer() {
   interval = setInterval(() => {
-    if (timer.textContent > 0 && round <= 8) {
-      timer.textContent--;
-    } else if (round <= 8) {
+    if (
+      (timer.textContent == 0 && round <= 8) ||
+      cannons[`p${currPlayer}CannonBtn`].classList.contains("disabled")
+    ) {
       timer.textContent = gameTime;
       switchPlayer();
+    } else if (timer.textContent > 0 && round <= 8) {
+      timer.textContent--;
     } else {
       timer.textContent = 0;
       console.log(`TIMER STOP`);
@@ -145,7 +137,7 @@ function switchPlayer() {
   currPlayer = currPlayer === 1 ? 2 : 1;
   console.log(`SWITCHED TO PLAYER ${currPlayer}`);
 
-  // enable/disable power dice deck
+  // enable power dice deck
   if (round === 3 || round === 6) {
     cannons["p1Cannon"].classList.add("inactive");
     cannons["p1CannonBtn"].classList.add("disabled");
@@ -154,6 +146,12 @@ function switchPlayer() {
 
     powerDiceDeck.classList.remove("inactive");
     powerDiceBtn.classList.remove("disabled");
+
+    // init powert dice deck
+    for (let i = 1; i <= 4; i++) {
+      document.querySelector(`#power-dice-${i}`).classList.remove("chosen");
+    }
+
     clearInterval(interval);
     return;
   }
@@ -161,6 +159,11 @@ function switchPlayer() {
   // enable next player button
   cannons[`p${currPlayer}Cannon`].classList.remove("inactive");
   cannons[`p${currPlayer}CannonBtn`].classList.remove("disabled");
+}
+
+function attackTower(nosOfShots) {
+  takeDamage = currPlayer === 1 ? 2 : 1;
+  towerHp[`p${takeDamage}Hp`].textContent -= nosOfShots;
 }
 
 function powerDice() {
@@ -221,9 +224,19 @@ playerCannon.addEventListener("click", function (e) {
   e.preventDefault();
   if (e.target.tagName !== "BUTTON") return;
 
+  // disable button after click & stop time
   cannons[`p${currPlayer}CannonBtn`].classList.add("disabled");
   clearInterval(interval);
+
+  // updated cannon dice equation
+  cannons[`p${currPlayer}CannonDice`].innerHTML =
+    generateCannonDice(currPlayer);
+  document.querySelector(`#p${currPlayer}-shots`).textContent =
+    cannonDice[0] * cannonDice[1];
+
+  attackTower(cannonDice[0] * cannonDice[1]);
+  gameTimer();
 });
 
-// init();
+init();
 // gameTimer();
