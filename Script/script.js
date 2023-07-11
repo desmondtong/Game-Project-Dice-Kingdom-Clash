@@ -37,6 +37,7 @@ const resultMsg = document.querySelector(".result-msg");
 const timeEachRound = 10;
 const maxHP = 10;
 let interval, randomPowerDice, takeDamage, towerArr, towerNew, hpHeal, healed;
+let resultDisplayed, pauseDisplayed;
 let cannonDice = [];
 let round = 1;
 let currPlayer = 1;
@@ -48,6 +49,8 @@ function init() {
   round = 1;
   currPlayer = 1;
   gameTime = timeEachRound;
+  resultDisplayed = false;
+  pauseDisplayed = false;
 
   for (let el = 1; el < counter.length; el++) {
     counter[el].classList.add("inactive");
@@ -271,9 +274,11 @@ function displayResult(tie = false) {
   if (tie) {
     resultMsg.innerText = `IT'S A TIE!`;
     new bootstrap.Modal(document.querySelector("#resultModal")).show();
+    resultDisplayed = true;
   } else {
     resultMsg.textContent = playerName[`p${currPlayer}Name`] + " WIN THE GAME!";
     new bootstrap.Modal(document.querySelector("#resultModal")).show();
+    resultDisplayed = true;
   }
 }
 
@@ -328,12 +333,18 @@ exitBtn.addEventListener("click", function (e) {
 });
 
 document.addEventListener("keydown", function (e) {
+  e.preventDefault();
+
+  if (pauseDisplayed) return;
   if (
     e.key === "Escape" &&
     !gameScreen.classList.contains("hidden") &&
-    document.querySelector("#resultModal").style[0] !== "display"
-  )
-    console.log(`esc is pressed`);
+    resultDisplayed === false
+  ) {
+    clearInterval(interval);
+    pauseDisplayed = true;
+    new bootstrap.Modal(document.querySelector("#pauseModal")).show();
+  }
 });
 
 init();
