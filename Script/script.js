@@ -217,8 +217,7 @@ function attackTower(nosOfShots) {
 }
 
 function powerDice() {
-  // randomPowerDice = Math.ceil(Math.random() * 4);
-  randomPowerDice = 4;
+  randomPowerDice = Math.ceil(Math.random() * 4);
   document
     .querySelector(`#power-dice-${randomPowerDice}`)
     .classList.add("chosen");
