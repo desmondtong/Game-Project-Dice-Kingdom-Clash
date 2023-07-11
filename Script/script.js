@@ -35,7 +35,7 @@ const towerHp = {
 const resultMsg = document.querySelector(".result-msg");
 
 // Initialize variables
-const timeEachRound = 10;
+const timeEachRound = 1;
 const maxHP = 50;
 let interval, randomPowerDice, takeDamage, towerArr, towerNew, hpHeal, healed;
 let resultDisplayed, pauseDisplayed;
@@ -225,7 +225,8 @@ function attackTower(nosOfShots) {
 }
 
 function powerDice() {
-  randomPowerDice = Math.ceil(Math.random() * 4);
+  // randomPowerDice = Math.ceil(Math.random() * 4);
+  randomPowerDice = 3;
   document
     .querySelector(`#power-dice-${randomPowerDice}`)
     .classList.add("chosen");
@@ -264,7 +265,9 @@ function powerDice() {
 
 function updateTower(hp, heal = false) {
   if (heal) {
-    console.log("healing...HTML");
+    towerArr = towers[`p${currPlayer}Tower`].innerHTML.split("\n");
+    hp = Math.min(maxHP - towerArr.length, hp);
+    
     towerNew =
       towers[`p${currPlayer}Tower`].innerHTML + "\n" + generateTower(hp);
     towers[`p${currPlayer}Tower`].innerHTML = towerNew;
