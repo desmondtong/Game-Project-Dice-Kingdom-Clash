@@ -126,11 +126,13 @@ function startGame(e) {
   gameTimer();
 }
 
-function gameTimer() {
+function gameTimer(pause = false) {
   interval = setInterval(() => {
-    if (round === 3 || round === 6) {
-      return;
-    } else if (
+    if (pause) {
+      if (round === 3 || round === 6) return;
+    }
+
+    if (
       (timer.textContent == 0 && round <= 8) ||
       cannons[`p${currPlayer}CannonBtn`].classList.contains("disabled")
     ) {
@@ -341,7 +343,7 @@ resumeBtn.addEventListener("click", function (e) {
   if (e.target.tagName !== "BUTTON") return;
 
   pauseDisplayed = false;
-  gameTimer();
+  gameTimer(true);
 });
 
 document.addEventListener("keydown", function (e) {
