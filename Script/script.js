@@ -35,8 +35,8 @@ const resultMsg = document.querySelector(".result-msg");
 
 // Initialize variables
 const timeEachRound = 10;
-const maxHP = 50;
-let interval, randomPowerDice, takeDamage, towerArr, towerN, hpHeal;
+const maxHP = 10;
+let interval, randomPowerDice, takeDamage, towerArr, towerNew, hpHeal, healed;
 let cannonDice = [];
 let round = 1;
 let currPlayer = 1;
@@ -163,7 +163,7 @@ function switchPlayer() {
 
   // enable power dice deck
   // if (round === 3 || round === 6) {
-  if (round === 7 || round === 8) {
+  if (round === 1 || round === 2) {
     cannons["p1Cannon"].classList.add("inactive");
     cannons["p1CannonBtn"].classList.add("disabled");
     cannons["p2Cannon"].classList.add("inactive");
@@ -237,7 +237,8 @@ function powerDice() {
       break;
     case 3: // heal dice
       console.log(`${currPlayer} gets Heal Dice!`);
-      hpHeal = Math.max(Math.ceil(Math.random() * 20), 10);
+      // hpHeal = Math.max(Math.ceil(Math.random() * 20), 10);
+      hpHeal = 2;
       towerHp[`p${currPlayer}Hp`].textContent = Math.min(
         Number(towerHp[`p${currPlayer}Hp`].textContent) + hpHeal,
         maxHP
@@ -252,6 +253,13 @@ function powerDice() {
 
 function updateTower(hp, heal = false) {
   if (heal) {
+    console.log("healing...HTML");
+    towerNew = towers[`p${currPlayer}Tower`].innerHTML + generateTower(hp);
+    healed = generateTower(hp);
+    console.log(`before ${towers[`p${currPlayer}Tower`].innerHTML}`);
+    console.log(`after ${towerNew}`);
+    console.log(healed);
+    console.log(towerNew.split("\n").length);
   } else {
     towerArr = towers[`p${takeDamage}Tower`].innerHTML.split("\n");
     towerNew = towerArr.splice(0, towerArr.length - hp).join("\n");
