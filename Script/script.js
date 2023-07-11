@@ -35,7 +35,7 @@ const resultMsg = document.querySelector(".result-msg");
 
 // Initialize variables
 const timeEachRound = 10;
-const maxHP = 10;
+const maxHP = 50;
 let interval, randomPowerDice, takeDamage, towerArr, towerNew, hpHeal, healed;
 let cannonDice = [];
 let round = 1;
@@ -138,7 +138,6 @@ function gameTimer() {
       clearInterval(interval);
     }
   }, 1000);
-  // add condtion when HP = 0 then timer stop!!
 }
 
 function switchPlayer() {
@@ -162,8 +161,7 @@ function switchPlayer() {
   console.log(`SWITCHED TO PLAYER ${currPlayer}`);
 
   // enable power dice deck
-  // if (round === 3 || round === 6) {
-  if (round === 1 || round === 2) {
+  if (round === 3 || round === 6) {
     cannons["p1Cannon"].classList.add("inactive");
     cannons["p1CannonBtn"].classList.add("disabled");
     cannons["p2Cannon"].classList.add("inactive");
@@ -220,7 +218,7 @@ function attackTower(nosOfShots) {
 
 function powerDice() {
   // randomPowerDice = Math.ceil(Math.random() * 4);
-  randomPowerDice = 3;
+  randomPowerDice = 4;
   document
     .querySelector(`#power-dice-${randomPowerDice}`)
     .classList.add("chosen");
@@ -237,8 +235,7 @@ function powerDice() {
       break;
     case 3: // heal dice
       console.log(`${currPlayer} gets Heal Dice!`);
-      // hpHeal = Math.max(Math.ceil(Math.random() * 20), 10);
-      hpHeal = 2;
+      hpHeal = Math.max(Math.ceil(Math.random() * 20), 10);
       towerHp[`p${currPlayer}Hp`].textContent = Math.min(
         Number(towerHp[`p${currPlayer}Hp`].textContent) + hpHeal,
         maxHP
@@ -247,6 +244,13 @@ function powerDice() {
       break;
     case 4: // swap dice
       console.log(`${currPlayer} gets Swap Dice!`);
+      a = [towerHp.p1Hp.textContent, towerHp.p2Hp.textContent];
+      towerHp.p1Hp.textContent = a[1];
+      towerHp.p2Hp.textContent = a[0];
+
+      b = [towers.p1Tower.innerHTML, towers.p2Tower.innerHTML];
+      towers.p1Tower.innerHTML = b[1];
+      towers.p2Tower.innerHTML = b[0];
       break;
   }
 }
@@ -254,12 +258,9 @@ function powerDice() {
 function updateTower(hp, heal = false) {
   if (heal) {
     console.log("healing...HTML");
-    towerNew = towers[`p${currPlayer}Tower`].innerHTML + generateTower(hp);
-    healed = generateTower(hp);
-    console.log(`before ${towers[`p${currPlayer}Tower`].innerHTML}`);
-    console.log(`after ${towerNew}`);
-    console.log(healed);
-    console.log(towerNew.split("\n").length);
+    towerNew =
+      towers[`p${currPlayer}Tower`].innerHTML + "\n" + generateTower(hp);
+    towers[`p${currPlayer}Tower`].innerHTML = towerNew;
   } else {
     towerArr = towers[`p${takeDamage}Tower`].innerHTML.split("\n");
     towerNew = towerArr.splice(0, towerArr.length - hp).join("\n");
