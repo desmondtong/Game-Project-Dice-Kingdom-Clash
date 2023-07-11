@@ -35,7 +35,7 @@ const resultMsg = document.querySelector(".result-msg");
 
 // Initialize variables
 const timeEachRound = 10;
-const maxHP = 50;
+const maxHP = 10;
 let interval, randomPowerDice, takeDamage, towerArr, towerNew, hpHeal, healed;
 let cannonDice = [];
 let round = 1;
@@ -63,7 +63,7 @@ function init() {
   cannons.p2Cannon.classList.add("inactive");
   cannons.p2CannonBtn.classList.add("disabled");
 
-  for (tower of Object.values(towers)) {
+  for (const tower of Object.values(towers)) {
     tower.innerHTML = generateTower(maxHP);
   }
 
@@ -102,9 +102,9 @@ function generateCannonDice(player) {
 // </h1>`;
 // }
 
-function startGame() {
-  event.preventDefault();
-  if (event.target.tagName !== "BUTTON") return;
+function startGame(e) {
+  e.preventDefault();
+  if (e.target.tagName !== "BUTTON") return;
 
   playerName = {
     p1Name: document.querySelector("#p1Name").value,
@@ -325,6 +325,15 @@ exitBtn.addEventListener("click", function (e) {
   body.style.backgroundSize = "cover";
 
   gameScreen.classList.add("hidden");
+});
+
+document.addEventListener("keydown", function (e) {
+  if (
+    e.key === "Escape" &&
+    !gameScreen.classList.contains("hidden") &&
+    document.querySelector("#resultModal").style[0] !== "display"
+  )
+    console.log(`esc is pressed`);
 });
 
 init();
