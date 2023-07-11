@@ -128,7 +128,9 @@ function startGame(e) {
 
 function gameTimer() {
   interval = setInterval(() => {
-    if (
+    if (round === 3 || round === 6) {
+      return;
+    } else if (
       (timer.textContent == 0 && round <= 8) ||
       cannons[`p${currPlayer}CannonBtn`].classList.contains("disabled")
     ) {
@@ -333,6 +335,14 @@ for (const btn of exitBtn) {
     gameScreen.classList.add("hidden");
   });
 }
+
+resumeBtn.addEventListener("click", function (e) {
+  e.preventDefault();
+  if (e.target.tagName !== "BUTTON") return;
+
+  pauseDisplayed = false;
+  gameTimer();
+});
 
 document.addEventListener("keydown", function (e) {
   // e.preventDefault();
