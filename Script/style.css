@@ -21,7 +21,7 @@ html {
 }
 
 body {
-  background: url("../Assets/start-menu.png");
+  /* background: url("../Assets/start-menu.png"); */
   background-color: var(--pastel-brown);
   background-size: cover;
   width: 100%;
@@ -68,11 +68,13 @@ body {
 p,
 h1,
 h2,
-h3 {
+h3,
+h4 {
   font-family: var(--font);
 }
 
-.result-msg, .pause-msg {
+.result-msg,
+.pause-msg {
   text-align: center;
 }
 
@@ -126,14 +128,21 @@ span {
 }
 
 .game-screen h3 {
-  margin: 20px 0;
+  margin: 20px 0 0 0;
 }
 
-#resultModal .modal-body, #pauseModal .modal-body {
+#disp-p1,
+#disp-p2 {
+  margin: 0;
+  font-size: 20px;
+}
+
+#resultModal .modal-body,
+#pauseModal .modal-body {
   height: 100px;
 }
 
-.resume-btn{
+.resume-btn {
   background-color: var(--pastel-yellow);
   border-color: var(--pastel-yellow);
 }

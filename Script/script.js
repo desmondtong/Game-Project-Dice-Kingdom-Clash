@@ -26,16 +26,17 @@ const towers = {
   p1Tower: document.querySelector("#p1-tower"),
   p2Tower: document.querySelector("#p2-tower"),
 };
-
 const towerHp = {
   p1Hp: document.querySelector("#p1-hp"),
   p2Hp: document.querySelector("#p2-hp"),
 };
 
 const resultMsg = document.querySelector(".result-msg");
+const dispP1Name = document.querySelector("#disp-p1");
+const dispP2Name = document.querySelector("#disp-p2");
 
 // Initialize variables
-const timeEachRound = 1;
+const timeEachRound = 10;
 const maxHP = 50;
 let interval, randomPowerDice, takeDamage, towerArr, towerNew, hpHeal, healed;
 let resultDisplayed, pauseDisplayed;
@@ -76,6 +77,11 @@ function init() {
 
   cannons.p1CannonDice.innerHTML = generateCannonDice(1);
   cannons.p2CannonDice.innerHTML = generateCannonDice(2);
+
+  // init power dice deck
+  for (let i = 1; i <= 4; i++) {
+    document.querySelector(`#power-dice-${i}`).classList.remove("chosen");
+  }
 }
 
 function generateTower(maxHP) {
@@ -114,6 +120,9 @@ function startGame(e) {
     p1Name: document.querySelector("#p1Name").value,
     p2Name: document.querySelector("#p2Name").value,
   };
+
+  dispP1Name.textContent = playerName.p1Name;
+  dispP2Name.textContent = playerName.p2Name;
 
   startMenu.classList.add("hidden");
   body.style.background = "url(' ')";
@@ -225,8 +234,7 @@ function attackTower(nosOfShots) {
 }
 
 function powerDice() {
-  // randomPowerDice = Math.ceil(Math.random() * 4);
-  randomPowerDice = 3;
+  randomPowerDice = Math.ceil(Math.random() * 4);
   document
     .querySelector(`#power-dice-${randomPowerDice}`)
     .classList.add("chosen");
@@ -267,7 +275,7 @@ function updateTower(hp, heal = false) {
   if (heal) {
     towerArr = towers[`p${currPlayer}Tower`].innerHTML.split("\n");
     hp = Math.min(maxHP - towerArr.length, hp);
-    
+
     towerNew =
       towers[`p${currPlayer}Tower`].innerHTML + "\n" + generateTower(hp);
     towers[`p${currPlayer}Tower`].innerHTML = towerNew;
@@ -364,5 +372,5 @@ document.addEventListener("keydown", function (e) {
   }
 });
 
-init();
+// init();
 // gameTimer();
