@@ -2,9 +2,10 @@
 const body = document.querySelector("body");
 const startMenu = document.querySelector(".start-menu");
 const gameScreen = document.querySelector(".game-screen");
-const playBtn = document.querySelector(".play-btn");
-const playAgainBtn = document.querySelector(".play-again-btn");
-const exitBtn = document.querySelector(".exit-btn");
+
+const playBtn = document.querySelectorAll(".play-btn");
+const exitBtn = document.querySelectorAll(".exit-btn");
+const resumeBtn = document.querySelector(".resume-btn");
 
 const timer = document.querySelector(".timer");
 const counter = document.querySelectorAll(".counter");
@@ -35,7 +36,7 @@ const resultMsg = document.querySelector(".result-msg");
 
 // Initialize variables
 const timeEachRound = 10;
-const maxHP = 10;
+const maxHP = 50;
 let interval, randomPowerDice, takeDamage, towerArr, towerNew, hpHeal, healed;
 let resultDisplayed, pauseDisplayed;
 let cannonDice = [];
@@ -283,8 +284,7 @@ function displayResult(tie = false) {
 }
 
 // Event button
-playBtn.addEventListener("click", startGame);
-playAgainBtn.addEventListener("click", startGame);
+for (const btn of playBtn) [btn.addEventListener("click", startGame)];
 
 powerDiceBtn.addEventListener("click", function (e) {
   e.preventDefault();
@@ -321,19 +321,21 @@ playerCannon.addEventListener("click", function (e) {
   gameTimer();
 });
 
-exitBtn.addEventListener("click", function (e) {
-  e.preventDefault();
-  if (e.target.tagName !== "BUTTON") return;
+for (const btn of exitBtn) {
+  btn.addEventListener("click", function (e) {
+    e.preventDefault();
+    if (e.target.tagName !== "BUTTON") return;
 
-  startMenu.classList.remove("hidden");
-  body.style.background = "url('../Assets/start-menu.png')";
-  body.style.backgroundSize = "cover";
+    startMenu.classList.remove("hidden");
+    body.style.background = "url('../Assets/start-menu.png')";
+    body.style.backgroundSize = "cover";
 
-  gameScreen.classList.add("hidden");
-});
+    gameScreen.classList.add("hidden");
+  });
+}
 
 document.addEventListener("keydown", function (e) {
-  e.preventDefault();
+  // e.preventDefault();
 
   if (pauseDisplayed) return;
   if (
