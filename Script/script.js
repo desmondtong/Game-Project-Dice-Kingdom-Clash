@@ -34,9 +34,9 @@ const towerHp = {
 const resultMsg = document.querySelector(".result-msg");
 
 // Initialize variables
-const timeEachRound = 5;
+const timeEachRound = 10;
 const maxHP = 50;
-let interval, randomPowerDice, takeDamage, towerArr, towerN;
+let interval, randomPowerDice, takeDamage, towerArr, towerN, hpHeal;
 let cannonDice = [];
 let round = 1;
 let currPlayer = 1;
@@ -162,7 +162,8 @@ function switchPlayer() {
   console.log(`SWITCHED TO PLAYER ${currPlayer}`);
 
   // enable power dice deck
-  if (round === 3 || round === 6) {
+  // if (round === 3 || round === 6) {
+  if (round === 7 || round === 8) {
     cannons["p1Cannon"].classList.add("inactive");
     cannons["p1CannonBtn"].classList.add("disabled");
     cannons["p2Cannon"].classList.add("inactive");
@@ -186,15 +187,28 @@ function switchPlayer() {
 }
 
 function attackTower(nosOfShots) {
-  takeDamage = currPlayer === 1 ? 2 : 1;
+  // check if can ricochet
+  if (towers[`p${currPlayer}Tower`].classList.contains("ricochet")) {
+    takeDamage = currPlayer;
+  } else {
+    takeDamage = currPlayer === 1 ? 2 : 1;
+  }
+  // check if have shield
+  if (towers[`p${takeDamage}Tower`].classList.contains("shield")) {
+    nosOfShots = Math.ceil(nosOfShots / 2);
+  }
+
   towerHp[`p${takeDamage}Hp`].textContent = Math.max(
     towerHp[`p${takeDamage}Hp`].textContent - nosOfShots,
     0
   );
 
-  towerArr = towers[`p${takeDamage}Tower`].innerHTML.split("\n");
-  towerNew = towerArr.splice(0, towerArr.length - nosOfShots).join("\n");
-  towers[`p${takeDamage}Tower`].innerHTML = towerNew;
+  // update tower dice
+  updateTower(nosOfShots);
+
+  // remove power dice class
+  towers[`p${takeDamage}Tower`].classList.remove("shield");
+  towers[`p${currPlayer}Tower`].classList.remove("ricochet");
 
   if (towerHp[`p${takeDamage}Hp`].textContent == 0) {
     clearInterval(interval);
@@ -205,24 +219,43 @@ function attackTower(nosOfShots) {
 }
 
 function powerDice() {
-  randomPowerDice = Math.ceil(Math.random() * 4);
+  // randomPowerDice = Math.ceil(Math.random() * 4);
+  randomPowerDice = 3;
   document
     .querySelector(`#power-dice-${randomPowerDice}`)
     .classList.add("chosen");
 
   switch (randomPowerDice) {
-    case 1:
-      console.log("dice1");
+    case 1: // shield dice
+      console.log(`${currPlayer} gets Shield Dice!`);
+      towers[`p${currPlayer}Tower`].classList.add("shield");
       break;
-    case 2:
-      console.log("dice2");
+    case 2: // ricochet dice
+      console.log(`${currPlayer} gets Ricochet Dice!`);
+      // add rico class to opponent
+      towers[`p${currPlayer === 1 ? 2 : 1}Tower`].classList.add("ricochet");
       break;
-    case 3:
-      console.log("dice3");
+    case 3: // heal dice
+      console.log(`${currPlayer} gets Heal Dice!`);
+      hpHeal = Math.max(Math.ceil(Math.random() * 20), 10);
+      towerHp[`p${currPlayer}Hp`].textContent = Math.min(
+        Number(towerHp[`p${currPlayer}Hp`].textContent) + hpHeal,
+        maxHP
+      );
+      updateTower(hpHeal, true);
       break;
-    case 4:
-      console.log("dice4");
+    case 4: // swap dice
+      console.log(`${currPlayer} gets Swap Dice!`);
       break;
+  }
+}
+
+function updateTower(hp, heal = false) {
+  if (heal) {
+  } else {
+    towerArr = towers[`p${takeDamage}Tower`].innerHTML.split("\n");
+    towerNew = towerArr.splice(0, towerArr.length - hp).join("\n");
+    towers[`p${takeDamage}Tower`].innerHTML = towerNew;
   }
 }
 
@@ -286,5 +319,5 @@ exitBtn.addEventListener("click", function (e) {
   gameScreen.classList.add("hidden");
 });
 
-// init();
+init();
 // gameTimer();
