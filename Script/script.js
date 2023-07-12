@@ -31,6 +31,7 @@ const towerHp = {
   p2Hp: document.querySelector("#p2-hp"),
 };
 
+const roundMsg = document.querySelector(".round-msg");
 const resultMsg = document.querySelector(".result-msg");
 const dispP1Name = document.querySelector("#disp-p1");
 const dispP2Name = document.querySelector("#disp-p2");
@@ -82,6 +83,8 @@ function init() {
   for (let i = 1; i <= 4; i++) {
     document.querySelector(`#power-dice-${i}`).classList.remove("chosen");
   }
+
+  roundMsg.textContent = `${playerName.p1Name}'s turn! Roll your cannon dice!`
 }
 
 function generateTower(maxHP) {
@@ -176,6 +179,7 @@ function switchPlayer() {
   // switch player
   currPlayer = currPlayer === 1 ? 2 : 1;
   console.log(`SWITCHED TO PLAYER ${currPlayer}`);
+  roundMsg.textContent = `${playerName[`p${currPlayer}Name`]}'s turn! Roll your cannon dice!`
 
   // enable power dice deck
   if (round === 3 || round === 6) {

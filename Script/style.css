@@ -137,6 +137,10 @@ span {
   font-size: 20px;
 }
 
+.round-msg {
+  font-size: 25px;
+}
+
 #resultModal .modal-body,
 #pauseModal .modal-body {
   height: 100px;
