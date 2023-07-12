@@ -114,14 +114,23 @@ span {
 }
 
 /* START GAME MESSAGE */
-.start-game-msg {
-  display: flex;
+.start-game-overlay {
+  /* display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: center; */
   height: 100%;
   width: 100%;
+  position: fixed;
+  background-color: rgba(0, 0, 0, 0.8);
+  z-index: 10;
 
   text-align: center;
+}
+
+.start-game-msg {
+  position: relative;
+  top: 40%;
+  color: white;
 }
 
 .display-msg {
@@ -145,13 +154,13 @@ span {
 }
 
 .status-bar {
-  display:flex;
+  display: flex;
   position: relative;
 }
 
-.power-dice-stat{
-  display:grid;
-  grid-template-columns: repeat(2, 50px) ;
+.power-dice-stat {
+  display: grid;
+  grid-template-columns: repeat(2, 50px);
   grid-template-rows: 50px;
   justify-content: end;
 
@@ -161,8 +170,8 @@ span {
 }
 
 .power-dice-icon {
-  width:100%;
-  height:100%;
+  width: 100%;
+  height: 100%;
   background-size: cover;
 }
 

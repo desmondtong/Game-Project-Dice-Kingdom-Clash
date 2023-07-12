@@ -31,8 +31,11 @@ const towerHp = {
   p2Hp: document.querySelector("#p2-hp"),
 };
 
+const startGameOverlay = document.querySelector(".start-game-overlay");
+const startGameMsg = document.querySelector(".start-game-msg");
 const roundMsg = document.querySelector(".round-msg");
 const resultMsg = document.querySelector(".result-msg");
+
 const dispP1Name = document.querySelector("#disp-p1");
 const dispP2Name = document.querySelector("#disp-p2");
 
@@ -119,11 +122,9 @@ function generateCannonDice(player) {
       <p class="cannon-dice" id="p${player}-shots">?</p>`;
 }
 
-// function displayStartMsg(p1, p2) {
-//   document.querySelector("main .display-msg").innerHTML = `<h1>
-//   <span class="display-msg">START!</span><br />${p1} VS ${p2}
-// </h1>`;
-// }
+function displayStartMsg(p1, p2) {
+  startGameMsg.innerHTML = `<span class="display-msg">START!</span><br />${p1} VS ${p2}`;
+}
 
 function startGame(e) {
   e.preventDefault();
@@ -142,10 +143,14 @@ function startGame(e) {
   body.style.backgroundColor = "var(--pastel-brown)";
 
   gameScreen.classList.remove("hidden");
+  startGameOverlay.classList.remove("hidden");
+  displayStartMsg(playerName.p1Name, playerName.p2Name);
 
-  // displayStartMsg(p1Name, p2Name);
   init();
-  gameTimer();
+  setTimeout(() => {
+    startGameOverlay.classList.add("hidden");
+    gameTimer();
+  }, 2000);
 }
 
 function gameTimer(pause = false) {
@@ -254,8 +259,7 @@ function attackTower(nosOfShots) {
 }
 
 function powerDice() {
-  // randomPowerDice = Math.ceil(Math.random() * 4);
-  randomPowerDice = 2;
+  randomPowerDice = Math.ceil(Math.random() * 4);
   document
     .querySelector(`#power-dice-${randomPowerDice}`)
     .classList.add("chosen");
@@ -413,6 +417,7 @@ for (const btn of exitBtn) {
     body.style.backgroundSize = "cover";
 
     gameScreen.classList.add("hidden");
+    startGameOverlay.classList.add("hidden");
   });
 }
 
