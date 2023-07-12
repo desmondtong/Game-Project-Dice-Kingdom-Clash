@@ -251,25 +251,24 @@ function powerDice() {
 
   switch (randomPowerDice) {
     case 1: // shield dice
-      console.log(`${currPlayer} gets Shield Dice!`);
       towers[`p${currPlayer}Tower`].classList.add("shield");
+      displayRoundMsg(true, "Shield Dice");
       break;
     case 2: // ricochet dice
-      console.log(`${currPlayer} gets Ricochet Dice!`);
       // add rico class to opponent
       towers[`p${currPlayer === 1 ? 2 : 1}Tower`].classList.add("ricochet");
+      displayRoundMsg(true, "Ricochet Dice");
       break;
     case 3: // heal dice
-      console.log(`${currPlayer} gets Heal Dice!`);
       hpHeal = Math.max(Math.ceil(Math.random() * 20), 10);
       towerHp[`p${currPlayer}Hp`].textContent = Math.min(
         Number(towerHp[`p${currPlayer}Hp`].textContent) + hpHeal,
         maxHP
       );
+      displayRoundMsg(true, "Heal Dice");
       updateTower(hpHeal, true);
       break;
     case 4: // swap dice
-      console.log(`${currPlayer} gets Swap Dice!`);
       a = [towerHp.p1Hp.textContent, towerHp.p2Hp.textContent];
       towerHp.p1Hp.textContent = a[1];
       towerHp.p2Hp.textContent = a[0];
@@ -277,6 +276,7 @@ function powerDice() {
       b = [towers.p1Tower.innerHTML, towers.p2Tower.innerHTML];
       towers.p1Tower.innerHTML = b[1];
       towers.p2Tower.innerHTML = b[0];
+      displayRoundMsg(true, "Swap Dice");
       break;
   }
 }
@@ -308,11 +308,17 @@ function displayResult(tie = false) {
   }
 }
 
-function displayRoundMsg(powerDice = false) {
+function displayRoundMsg(powerDice = false, diceName = "") {
   if (powerDice) {
-    roundMsg.textContent = `${
-      playerName[`p${currPlayer}Name`]
-    }'s turn! Try your luck!`;
+    if (diceName !== "") {
+      roundMsg.textContent = `${
+        playerName[`p${currPlayer}Name`]
+      } get a ${diceName}!`;
+    } else {
+      roundMsg.textContent = `${
+        playerName[`p${currPlayer}Name`]
+      }'s turn! Try your luck!`;
+    }
   } else {
     roundMsg.textContent = `${
       playerName[`p${currPlayer}Name`]
@@ -331,16 +337,18 @@ powerDiceBtn.addEventListener("click", function (e) {
 
   setTimeout(() => {
     powerDiceDeck.classList.add("inactive");
-  }, 1000);
+  }, 2000);
   powerDiceBtn.classList.add("disabled");
 
   // after roll power dice then enable currPlayer button
-  cannons[`p${currPlayer}Cannon`].classList.remove("inactive");
-  cannons[`p${currPlayer}CannonBtn`].classList.remove("disabled");
-  cannons[`p${currPlayer}CannonDice`].classList.remove("inactive");
-  displayRoundMsg();
+  setTimeout(() => {
+    cannons[`p${currPlayer}Cannon`].classList.remove("inactive");
+    cannons[`p${currPlayer}CannonBtn`].classList.remove("disabled");
+    cannons[`p${currPlayer}CannonDice`].classList.remove("inactive");
+    displayRoundMsg();
 
-  gameTimer();
+    gameTimer();
+  }, 2000);
 });
 
 playerCannon.addEventListener("click", function (e) {
