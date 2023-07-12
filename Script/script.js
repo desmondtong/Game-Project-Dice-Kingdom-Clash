@@ -223,12 +223,14 @@ function attackTower(nosOfShots) {
   // check if can ricochet
   if (towers[`p${currPlayer}Tower`].classList.contains("ricochet")) {
     takeDamage = currPlayer;
+    stat[`p${takeDamage == 1 ? 2 : 1}Stat`].innerHTML = "";
   } else {
     takeDamage = currPlayer === 1 ? 2 : 1;
   }
   // check if have shield
   if (towers[`p${takeDamage}Tower`].classList.contains("shield")) {
     nosOfShots = Math.ceil(nosOfShots / 2);
+    stat[`p${takeDamage}Stat`].innerHTML = "";
   }
 
   towerHp[`p${takeDamage}Hp`].textContent = Math.max(
@@ -252,7 +254,8 @@ function attackTower(nosOfShots) {
 }
 
 function powerDice() {
-  randomPowerDice = Math.ceil(Math.random() * 4);
+  // randomPowerDice = Math.ceil(Math.random() * 4);
+  randomPowerDice = 2;
   document
     .querySelector(`#power-dice-${randomPowerDice}`)
     .classList.add("chosen");
@@ -260,11 +263,19 @@ function powerDice() {
   switch (randomPowerDice) {
     case 1: // shield dice
       towers[`p${currPlayer}Tower`].classList.add("shield");
+      stat[`p${currPlayer}Stat`].innerHTML = `<div><img
+      src="../Assets/power-dice/shield-dice.png"
+      class="power-dice-icon"
+    /></div>`;
       displayRoundMsg(true, "Shield Dice");
       break;
     case 2: // ricochet dice
       // add rico class to opponent
       towers[`p${currPlayer === 1 ? 2 : 1}Tower`].classList.add("ricochet");
+      stat[`p${currPlayer}Stat`].innerHTML = `<div><img
+      src="../Assets/power-dice/ricochet-dice.png"
+      class="power-dice-icon"
+    /></div>`;
       displayRoundMsg(true, "Ricochet Dice");
       break;
     case 3: // heal dice
@@ -322,7 +333,9 @@ function displayResult(tie = false) {
     new bootstrap.Modal(document.querySelector("#resultModal")).show();
     resultDisplayed = true;
   } else {
-    resultMsg.textContent = playerName[`p${currPlayer}Name`] + " WIN THE GAME!";
+    resultMsg.textContent =
+      playerName[`p${towerHp.p1Hp.textContent == 0 ? 2 : 1}Name`] +
+      " WIN THE GAME!";
     new bootstrap.Modal(document.querySelector("#resultModal")).show();
     resultDisplayed = true;
   }
@@ -426,5 +439,5 @@ document.addEventListener("keydown", function (e) {
   }
 });
 
-// init();
-// gameTimer();
+init();
+gameTimer();
