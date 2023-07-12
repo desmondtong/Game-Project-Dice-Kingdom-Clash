@@ -86,7 +86,7 @@ function init() {
     document.querySelector(`#power-dice-${i}`).classList.remove("chosen");
   }
 
-  roundMsg.textContent = `${playerName.p1Name}'s turn! Roll your cannon dice!`;
+  displayRoundMsg();
 }
 
 function generateTower(maxHP) {
@@ -312,7 +312,7 @@ function displayRoundMsg(powerDice = false) {
   if (powerDice) {
     roundMsg.textContent = `${
       playerName[`p${currPlayer}Name`]
-    }'s turn! Try your luck and roll the Power Dice!`;
+    }'s turn! Try your luck!`;
   } else {
     roundMsg.textContent = `${
       playerName[`p${currPlayer}Name`]
@@ -326,10 +326,10 @@ for (const btn of playBtn) [btn.addEventListener("click", startGame)];
 powerDiceBtn.addEventListener("click", function (e) {
   e.preventDefault();
   if (e.target.tagName !== "BUTTON") return;
-
+  
   powerDiceDeck.classList.add("inactive");
   powerDiceBtn.classList.add("disabled");
-
+  
   powerDice();
 
   // after roll power dice then enable currPlayer button
