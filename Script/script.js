@@ -36,6 +36,11 @@ const resultMsg = document.querySelector(".result-msg");
 const dispP1Name = document.querySelector("#disp-p1");
 const dispP2Name = document.querySelector("#disp-p2");
 
+const stat = {
+  p1Stat: document.querySelector("#p1-stat"),
+  p2Stat: document.querySelector("#p2-stat"),
+};
+
 // Initialize variables
 const timeEachRound = 10;
 const maxHP = 50;
@@ -80,6 +85,9 @@ function init() {
 
   cannons.p1CannonDice.innerHTML = generateCannonDice(1);
   cannons.p2CannonDice.innerHTML = generateCannonDice(2);
+
+  stat.p1Stat.innerHTML = "";
+  stat.p2Stat.innerHTML = "";
 
   // init power dice deck
   for (let i = 1; i <= 4; i++) {
@@ -303,7 +311,7 @@ function updateTower(hp, heal = false) {
           .join("\n");
         towers[`p${takeDamage}Tower`].innerHTML = towerNew;
         //add cannon audio
-      }, 60*i);
+      }, 60 * i);
     }
   }
 }
