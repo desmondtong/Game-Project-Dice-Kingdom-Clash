@@ -148,9 +148,13 @@ function startGame(e) {
 
   init();
   setTimeout(() => {
-    startGameOverlay.classList.add("hidden");
+    startGameOverlay.classList.add("fade-out");
     gameTimer();
   }, 2000);
+  setTimeout(() => {
+    startGameOverlay.classList.add("hidden");
+    startGameOverlay.classList.remove("fade-out");
+  }, 3000);
 }
 
 function gameTimer(pause = false) {
@@ -444,5 +448,5 @@ document.addEventListener("keydown", function (e) {
   }
 });
 
-init();
-gameTimer();
+// init();
+// gameTimer();
