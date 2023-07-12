@@ -326,11 +326,13 @@ for (const btn of playBtn) [btn.addEventListener("click", startGame)];
 powerDiceBtn.addEventListener("click", function (e) {
   e.preventDefault();
   if (e.target.tagName !== "BUTTON") return;
-  
-  powerDiceDeck.classList.add("inactive");
-  powerDiceBtn.classList.add("disabled");
-  
+
   powerDice();
+
+  setTimeout(() => {
+    powerDiceDeck.classList.add("inactive");
+  }, 1000);
+  powerDiceBtn.classList.add("disabled");
 
   // after roll power dice then enable currPlayer button
   cannons[`p${currPlayer}Cannon`].classList.remove("inactive");
