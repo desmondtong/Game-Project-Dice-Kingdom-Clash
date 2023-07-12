@@ -193,7 +193,7 @@ function switchPlayer() {
 
     powerDiceDeck.classList.remove("inactive");
     powerDiceBtn.classList.remove("disabled");
-    roundMsg(true);
+    displayRoundMsg(true);
 
     // init power dice deck
     for (let i = 1; i <= 4; i++) {
@@ -208,7 +208,7 @@ function switchPlayer() {
   cannons[`p${currPlayer}Cannon`].classList.remove("inactive");
   cannons[`p${currPlayer}CannonBtn`].classList.remove("disabled");
   cannons[`p${currPlayer}CannonDice`].classList.remove("inactive");
-  roundMsg();
+  displayRoundMsg();
 }
 
 function attackTower(nosOfShots) {
@@ -308,7 +308,7 @@ function displayResult(tie = false) {
   }
 }
 
-function roundMsg(powerDice = false) {
+function displayRoundMsg(powerDice = false) {
   if (powerDice) {
     roundMsg.textContent = `${
       playerName[`p${currPlayer}Name`]
@@ -336,7 +336,7 @@ powerDiceBtn.addEventListener("click", function (e) {
   cannons[`p${currPlayer}Cannon`].classList.remove("inactive");
   cannons[`p${currPlayer}CannonBtn`].classList.remove("disabled");
   cannons[`p${currPlayer}CannonDice`].classList.remove("inactive");
-  roundMsg();
+  displayRoundMsg();
 
   gameTimer();
 });
