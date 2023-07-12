@@ -66,8 +66,10 @@ function init() {
 
   cannons.p1Cannon.classList.remove("inactive");
   cannons.p1CannonBtn.classList.remove("disabled");
+  cannons.p1CannonDice.classList.remove("inactive");
   cannons.p2Cannon.classList.add("inactive");
   cannons.p2CannonBtn.classList.add("disabled");
+  cannons.p2CannonDice.classList.remove("inactive");
 
   for (const tower of Object.values(towers)) {
     tower.innerHTML = generateTower(maxHP);
@@ -164,6 +166,7 @@ function switchPlayer() {
   // disable current player button
   cannons[`p${currPlayer}Cannon`].classList.add("inactive");
   cannons[`p${currPlayer}CannonBtn`].classList.add("disabled");
+  cannons[`p${currPlayer}CannonDice`].classList.add("inactive");
 
   // update round counter
   if (currPlayer === 2 && round < 8) {
@@ -178,15 +181,16 @@ function switchPlayer() {
 
   // switch player
   currPlayer = currPlayer === 1 ? 2 : 1;
-  console.log(`SWITCHED TO PLAYER ${currPlayer}`);
   roundMsg.textContent = `${playerName[`p${currPlayer}Name`]}'s turn! Roll your cannon dice!`
 
   // enable power dice deck
   if (round === 3 || round === 6) {
     cannons["p1Cannon"].classList.add("inactive");
     cannons["p1CannonBtn"].classList.add("disabled");
+    cannons["p1CannonDice"].classList.add("inactive");
     cannons["p2Cannon"].classList.add("inactive");
     cannons["p2CannonBtn"].classList.add("disabled");
+    cannons["p2CannonDice"].classList.add("inactive");
 
     powerDiceDeck.classList.remove("inactive");
     powerDiceBtn.classList.remove("disabled");
@@ -203,6 +207,7 @@ function switchPlayer() {
   // enable next player button
   cannons[`p${currPlayer}Cannon`].classList.remove("inactive");
   cannons[`p${currPlayer}CannonBtn`].classList.remove("disabled");
+  cannons[`p${currPlayer}CannonDice`].classList.remove("inactive");
 }
 
 function attackTower(nosOfShots) {
@@ -317,6 +322,7 @@ powerDiceBtn.addEventListener("click", function (e) {
   // after roll power dice then enable currPlayer button
   cannons[`p${currPlayer}Cannon`].classList.remove("inactive");
   cannons[`p${currPlayer}CannonBtn`].classList.remove("disabled");
+  cannons[`p${currPlayer}CannonDice`].classList.remove("inactive");
 
   gameTimer();
 });
