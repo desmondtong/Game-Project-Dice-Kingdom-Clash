@@ -291,8 +291,20 @@ function updateTower(hp, heal = false) {
     towers[`p${currPlayer}Tower`].innerHTML = towerNew;
   } else {
     towerArr = towers[`p${takeDamage}Tower`].innerHTML.split("\n");
-    towerNew = towerArr.splice(0, towerArr.length - hp).join("\n");
-    towers[`p${takeDamage}Tower`].innerHTML = towerNew;
+    // towerNew = towerArr.splice(0, towerArr.length - hp).join("\n");
+    // towers[`p${takeDamage}Tower`].innerHTML = towerNew;
+
+    for (let i = 1; i <= hp; i++) {
+      setTimeout(() => {
+        towerNew = towerArr
+          .toSpliced(
+            i == 1 ? towerArr.length - 1 : towerNew.split("\n").length - 1
+          )
+          .join("\n");
+        towers[`p${takeDamage}Tower`].innerHTML = towerNew;
+        //add cannon audio
+      }, 60*i);
+    }
   }
 }
 
