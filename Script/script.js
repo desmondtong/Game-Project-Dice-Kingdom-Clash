@@ -86,7 +86,7 @@ function init() {
     document.querySelector(`#power-dice-${i}`).classList.remove("chosen");
   }
 
-  roundMsg.textContent = `${playerName.p1Name}'s turn! Roll your cannon dice!`
+  roundMsg.textContent = `${playerName.p1Name}'s turn! Roll your cannon dice!`;
 }
 
 function generateTower(maxHP) {
@@ -181,7 +181,6 @@ function switchPlayer() {
 
   // switch player
   currPlayer = currPlayer === 1 ? 2 : 1;
-  roundMsg.textContent = `${playerName[`p${currPlayer}Name`]}'s turn! Roll your cannon dice!`
 
   // enable power dice deck
   if (round === 3 || round === 6) {
@@ -194,6 +193,7 @@ function switchPlayer() {
 
     powerDiceDeck.classList.remove("inactive");
     powerDiceBtn.classList.remove("disabled");
+    roundMsg(true);
 
     // init power dice deck
     for (let i = 1; i <= 4; i++) {
@@ -208,6 +208,7 @@ function switchPlayer() {
   cannons[`p${currPlayer}Cannon`].classList.remove("inactive");
   cannons[`p${currPlayer}CannonBtn`].classList.remove("disabled");
   cannons[`p${currPlayer}CannonDice`].classList.remove("inactive");
+  roundMsg();
 }
 
 function attackTower(nosOfShots) {
@@ -307,6 +308,18 @@ function displayResult(tie = false) {
   }
 }
 
+function roundMsg(powerDice = false) {
+  if (powerDice) {
+    roundMsg.textContent = `${
+      playerName[`p${currPlayer}Name`]
+    }'s turn! Try your luck and roll the Power Dice!`;
+  } else {
+    roundMsg.textContent = `${
+      playerName[`p${currPlayer}Name`]
+    }'s turn! Roll your Cannon Dice!`;
+  }
+}
+
 // Event button
 for (const btn of playBtn) [btn.addEventListener("click", startGame)];
 
@@ -323,6 +336,7 @@ powerDiceBtn.addEventListener("click", function (e) {
   cannons[`p${currPlayer}Cannon`].classList.remove("inactive");
   cannons[`p${currPlayer}CannonBtn`].classList.remove("disabled");
   cannons[`p${currPlayer}CannonDice`].classList.remove("inactive");
+  roundMsg();
 
   gameTimer();
 });
