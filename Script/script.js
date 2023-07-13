@@ -6,6 +6,7 @@ const gameScreen = document.querySelector(".game-screen");
 const playBtn = document.querySelectorAll(".play-btn");
 const exitBtn = document.querySelectorAll(".exit-btn");
 const resumeBtn = document.querySelector(".resume-btn");
+const btn = document.querySelectorAll(".btn");
 
 const timer = document.querySelector(".timer");
 const counter = document.querySelectorAll(".counter");
@@ -43,6 +44,10 @@ const stat = {
   p1Stat: document.querySelector("#p1-stat"),
   p2Stat: document.querySelector("#p2-stat"),
 };
+
+const clickSound = new Audio("../Assets/click2.mp3");
+const cannonSound = new Audio("../Assets/roll-cannon.mp3");
+
 
 // Initialize variables
 const timeEachRound = 10;
@@ -263,8 +268,7 @@ function attackTower(nosOfShots) {
 }
 
 function powerDice() {
-  // randomPowerDice = Math.ceil(Math.random() * 4);
-  randomPowerDice = 4;
+  randomPowerDice = Math.ceil(Math.random() * 4);
   document
     .querySelector(`#power-dice-${randomPowerDice}`)
     .classList.add("chosen");
@@ -373,6 +377,11 @@ function displayRoundMsg(powerDice = false, diceName = "") {
 }
 
 // Event button
+for (const each of btn)
+  each.addEventListener("click", function (e) {
+    clickSound.play();
+  });
+
 for (const btn of playBtn) [btn.addEventListener("click", startGame)];
 
 powerDiceBtn.addEventListener("click", function (e) {
@@ -400,6 +409,8 @@ powerDiceBtn.addEventListener("click", function (e) {
 playerCannon.addEventListener("click", function (e) {
   e.preventDefault();
   if (e.target.tagName !== "BUTTON") return;
+
+  // cannonSound.play();
 
   // disable button after click & stop time
   cannons[`p${currPlayer}CannonBtn`].classList.add("disabled");
@@ -450,6 +461,7 @@ document.addEventListener("keydown", function (e) {
     clearInterval(interval);
     pauseDisplayed = true;
     new bootstrap.Modal(document.querySelector("#pauseModal")).show();
+    clickSound.play();
   }
 });
 
