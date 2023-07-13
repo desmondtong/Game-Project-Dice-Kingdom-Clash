@@ -104,6 +104,10 @@ function init() {
 
   stat.p1Stat.innerHTML = "";
   stat.p2Stat.innerHTML = "";
+  towers.p1Tower.classList.remove("shield");
+  towers.p1Tower.classList.remove("ricochet");
+  towers.p2Tower.classList.remove("shield");
+  towers.p2Tower.classList.remove("ricochet");
 
   // init power dice deck
   for (let i = 1; i <= 4; i++) {
