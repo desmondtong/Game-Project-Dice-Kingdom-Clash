@@ -263,7 +263,8 @@ function attackTower(nosOfShots) {
 }
 
 function powerDice() {
-  randomPowerDice = Math.ceil(Math.random() * 4);
+  // randomPowerDice = Math.ceil(Math.random() * 4);
+  randomPowerDice = 4;
   document
     .querySelector(`#power-dice-${randomPowerDice}`)
     .classList.add("chosen");
@@ -293,16 +294,20 @@ function powerDice() {
         maxHP
       );
       displayRoundMsg(true, "Heal Dice");
-      updateTower(hpHeal, true);
+      setTimeout(() => {
+        updateTower(hpHeal, true);
+      }, 1000);
       break;
     case 4: // swap dice
-      a = [towerHp.p1Hp.textContent, towerHp.p2Hp.textContent];
-      towerHp.p1Hp.textContent = a[1];
-      towerHp.p2Hp.textContent = a[0];
+      setTimeout(() => {
+        a = [towerHp.p1Hp.textContent, towerHp.p2Hp.textContent];
+        towerHp.p1Hp.textContent = a[1];
+        towerHp.p2Hp.textContent = a[0];
 
-      b = [towers.p1Tower.innerHTML, towers.p2Tower.innerHTML];
-      towers.p1Tower.innerHTML = b[1];
-      towers.p2Tower.innerHTML = b[0];
+        b = [towers.p1Tower.innerHTML, towers.p2Tower.innerHTML];
+        towers.p1Tower.innerHTML = b[1];
+        towers.p2Tower.innerHTML = b[0];
+      }, 1000);
       displayRoundMsg(true, "Swap Dice");
       break;
   }
@@ -448,5 +453,5 @@ document.addEventListener("keydown", function (e) {
   }
 });
 
-// init();
-// gameTimer();
+init();
+gameTimer();
