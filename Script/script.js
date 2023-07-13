@@ -52,6 +52,8 @@ const getItemSound = new Audio("../Assets/get-item.mp3");
 const healSound = new Audio("../Assets/heal-dice.mp3");
 const swapSound = new Audio("../Assets/swap-dice.mp3");
 const swapSound2 = new Audio("../Assets/swap-dice-2.mp3");
+const shieldSound = new Audio("../Assets/shield-dice.mp3");
+const ricoSound = new Audio("../Assets/ricochet-dice.mp3");
 
 // Initialize variables
 const timeEachRound = 10;
@@ -242,6 +244,7 @@ function attackTower(nosOfShots) {
   if (towers[`p${currPlayer}Tower`].classList.contains("ricochet")) {
     takeDamage = currPlayer;
     stat[`p${takeDamage == 1 ? 2 : 1}Stat`].innerHTML = "";
+    ricoSound.play();
   } else {
     takeDamage = currPlayer === 1 ? 2 : 1;
   }
@@ -249,6 +252,7 @@ function attackTower(nosOfShots) {
   if (towers[`p${takeDamage}Tower`].classList.contains("shield")) {
     nosOfShots = Math.ceil(nosOfShots / 2);
     stat[`p${takeDamage}Stat`].innerHTML = "";
+    shieldSound.play();
   }
 
   towerHp[`p${takeDamage}Hp`].textContent = Math.max(
@@ -272,8 +276,7 @@ function attackTower(nosOfShots) {
 }
 
 function powerDice() {
-  // randomPowerDice = Math.ceil(Math.random() * 4);
-  randomPowerDice = 4;
+  randomPowerDice = Math.ceil(Math.random() * 4);
   document
     .querySelector(`#power-dice-${randomPowerDice}`)
     .classList.add("chosen");
@@ -349,10 +352,10 @@ function updateTower(hp, heal = false) {
           )
           .join("\n");
         towers[`p${takeDamage}Tower`].innerHTML = towerNew;
-        destroyTowerSound.play();
         //add cannon audio
       }, 60 * i);
     }
+    destroyTowerSound.play();
   }
 }
 
