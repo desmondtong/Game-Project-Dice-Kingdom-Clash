@@ -47,7 +47,11 @@ const stat = {
 
 const clickSound = new Audio("../Assets/click2.mp3");
 const cannonSound = new Audio("../Assets/roll-cannon.mp3");
-
+const destroyTowerSound = new Audio("../Assets/destroy-tower.mp3");
+const getItemSound = new Audio("../Assets/get-item.mp3");
+const healSound = new Audio("../Assets/heal-dice.mp3");
+const swapSound = new Audio("../Assets/swap-dice.mp3");
+const swapSound2 = new Audio("../Assets/swap-dice-2.mp3");
 
 // Initialize variables
 const timeEachRound = 10;
@@ -268,7 +272,8 @@ function attackTower(nosOfShots) {
 }
 
 function powerDice() {
-  randomPowerDice = Math.ceil(Math.random() * 4);
+  // randomPowerDice = Math.ceil(Math.random() * 4);
+  randomPowerDice = 4;
   document
     .querySelector(`#power-dice-${randomPowerDice}`)
     .classList.add("chosen");
@@ -280,6 +285,7 @@ function powerDice() {
       src="../Assets/power-dice/shield-dice.png"
       class="power-dice-icon"
     /></div>`;
+      getItemSound.play();
       displayRoundMsg(true, "Shield Dice");
       break;
     case 2: // ricochet dice
@@ -289,6 +295,7 @@ function powerDice() {
       src="../Assets/power-dice/ricochet-dice.png"
       class="power-dice-icon"
     /></div>`;
+      getItemSound.play();
       displayRoundMsg(true, "Ricochet Dice");
       break;
     case 3: // heal dice
@@ -300,6 +307,7 @@ function powerDice() {
       displayRoundMsg(true, "Heal Dice");
       setTimeout(() => {
         updateTower(hpHeal, true);
+        healSound.play();
       }, 1000);
       break;
     case 4: // swap dice
@@ -311,6 +319,9 @@ function powerDice() {
         b = [towers.p1Tower.innerHTML, towers.p2Tower.innerHTML];
         towers.p1Tower.innerHTML = b[1];
         towers.p2Tower.innerHTML = b[0];
+
+        swapSound.play();
+        swapSound2.play();
       }, 1000);
       displayRoundMsg(true, "Swap Dice");
       break;
@@ -338,6 +349,7 @@ function updateTower(hp, heal = false) {
           )
           .join("\n");
         towers[`p${takeDamage}Tower`].innerHTML = towerNew;
+        destroyTowerSound.play();
         //add cannon audio
       }, 60 * i);
     }
@@ -450,8 +462,6 @@ resumeBtn.addEventListener("click", function (e) {
 });
 
 document.addEventListener("keydown", function (e) {
-  // e.preventDefault();
-
   if (pauseDisplayed) return;
   if (
     e.key === "Escape" &&
