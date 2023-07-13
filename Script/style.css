@@ -7,11 +7,11 @@
   --font: "ZCOOL KuaiLe", sans-serif;
 }
 
-div,
+/* div,
 p,
 h4 {
   border-style: solid;
-}
+} */
 
 .hidden {
   display: none;
@@ -71,7 +71,6 @@ body {
 }
 
 /* START GAME & TUTORIAL MODAL */
-
 .modal-body {
   height: 320px;
 }

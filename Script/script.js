@@ -47,8 +47,7 @@ const stat = {
 };
 
 const clickSound = new Audio("../Assets/click2.mp3");
-const cannonSound = new Audio("../Assets/roll-cannon.mp3");
-const destroyTowerSound = new Audio("../Assets/destroy-tower.mp3");
+const destroyTowerSound = new Audio("../Assets/destroy-tower-short.mp3");
 const getItemSound = new Audio("../Assets/get-item.mp3");
 const healSound = new Audio("../Assets/heal-dice.mp3");
 const healSound2 = new Audio("../Assets/heal-dice-2.wav");
@@ -56,6 +55,7 @@ const swapSound = new Audio("../Assets/swap-dice.mp3");
 const swapSound2 = new Audio("../Assets/swap-dice-2.mp3");
 const shieldSound = new Audio("../Assets/shield-dice.mp3");
 const ricoSound = new Audio("../Assets/ricochet-dice.mp3");
+const gameBgm = new Audio("../Assets/game-music.mp3");
 
 // Initialize variables
 const timeEachRound = 10;
@@ -146,6 +146,10 @@ function displayStartMsg(p1, p2) {
 function startGame(e) {
   e.preventDefault();
   if (e.target.tagName !== "BUTTON") return;
+
+  gameBgm.play();
+  gameBgm.loop = true;
+  gameBgm.volume = 0.2;
 
   playerName = {
     p1Name: document.querySelector("#p1Name").value,
@@ -456,8 +460,6 @@ playerCannon.addEventListener("click", function (e) {
   e.preventDefault();
   if (e.target.tagName !== "BUTTON") return;
 
-  // cannonSound.play();
-
   // disable button after click & stop time
   cannons[`p${currPlayer}CannonBtn`].classList.add("disabled");
   clearInterval(interval);
@@ -484,6 +486,8 @@ for (const btn of exitBtn) {
 
     gameScreen.classList.add("hidden");
     startGameOverlay.classList.add("hidden");
+
+    gameBgm.pause();
   });
 }
 
