@@ -22,7 +22,7 @@
   </head>
   <body>
     <!-- Main Menu -->
-    <div class="start-menu hidden">
+    <div class="start-menu">
       <div class="d-grid gap-3 col-2 mx-auto">
         <button
           class="btn btn-success start-btn"
@@ -170,13 +170,13 @@
       </div>
     </div>
     <!-- Start Game Message -->
-    <div class="start-game-overlay">
+    <div class="start-game-overlay hidden">
         <h1 class="start-game-msg">
           <span class="display-msg">START!</span><br />Player 1 VS Player 2
         </h1>
     </div>
     <!-- Game Screen -->
-    <div class="game-screen">
+    <div class="game-screen hidden">
       <div class="container text-center">
         <div class="row header-row">
           <div class="col">
@@ -282,7 +282,9 @@
             <p class="cannon-dice">=</p>
             <p class="cannon-dice" id="p1-shots">36</p>
           </div>
-          <div class="col"></div>
+          <div class="col">
+            <p class="dice-msg fade-out">DICE ACTIVITIES</p>
+          </div>
           <div class="col" id="p2-cannon-dice">
             <img src="../Assets/brown dice/6.png" class="brown-dice-png" />
             <p class="cannon-dice">X</p>

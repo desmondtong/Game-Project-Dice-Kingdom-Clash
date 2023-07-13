@@ -36,6 +36,7 @@ const startGameOverlay = document.querySelector(".start-game-overlay");
 const startGameMsg = document.querySelector(".start-game-msg");
 const roundMsg = document.querySelector(".round-msg");
 const resultMsg = document.querySelector(".result-msg");
+const diceMsg = document.querySelector(".dice-msg");
 
 const dispP1Name = document.querySelector("#disp-p1");
 const dispP2Name = document.querySelector("#disp-p2");
@@ -50,6 +51,7 @@ const cannonSound = new Audio("../Assets/roll-cannon.mp3");
 const destroyTowerSound = new Audio("../Assets/destroy-tower.mp3");
 const getItemSound = new Audio("../Assets/get-item.mp3");
 const healSound = new Audio("../Assets/heal-dice.mp3");
+const healSound2 = new Audio("../Assets/heal-dice-2.wav");
 const swapSound = new Audio("../Assets/swap-dice.mp3");
 const swapSound2 = new Audio("../Assets/swap-dice-2.mp3");
 const shieldSound = new Audio("../Assets/shield-dice.mp3");
@@ -245,6 +247,8 @@ function attackTower(nosOfShots) {
     takeDamage = currPlayer;
     stat[`p${takeDamage == 1 ? 2 : 1}Stat`].innerHTML = "";
     ricoSound.play();
+
+    diceActionMsg("ricochet", playerName[`p${takeDamage == 1 ? 2 : 1}Name`]);
   } else {
     takeDamage = currPlayer === 1 ? 2 : 1;
   }
@@ -253,6 +257,8 @@ function attackTower(nosOfShots) {
     nosOfShots = Math.ceil(nosOfShots / 2);
     stat[`p${takeDamage}Stat`].innerHTML = "";
     shieldSound.play();
+
+    diceActionMsg("shield", playerName[`p${takeDamage}Name`]);
   }
 
   towerHp[`p${takeDamage}Hp`].textContent = Math.max(
@@ -311,6 +317,7 @@ function powerDice() {
       setTimeout(() => {
         updateTower(hpHeal, true);
         healSound.play();
+        healSound2.play();
       }, 1000);
       break;
     case 4: // swap dice
@@ -327,6 +334,7 @@ function powerDice() {
         swapSound2.play();
       }, 1000);
       displayRoundMsg(true, "Swap Dice");
+      diceActionMsg("swap", playerName[`p${currPlayer}Name`]);
       break;
   }
 }
@@ -339,6 +347,8 @@ function updateTower(hp, heal = false) {
     towerNew =
       towers[`p${currPlayer}Tower`].innerHTML + "\n" + generateTower(hp);
     towers[`p${currPlayer}Tower`].innerHTML = towerNew;
+
+    diceActionMsg("heal", playerName[`p${currPlayer}Name`], hp);
   } else {
     towerArr = towers[`p${takeDamage}Tower`].innerHTML.split("\n");
     for (let i = 1; i <= hp; i++) {
@@ -385,6 +395,27 @@ function displayRoundMsg(powerDice = false, diceName = "") {
       playerName[`p${currPlayer}Name`]
     }'s turn! Roll your Cannon Dice!`;
   }
+}
+
+function diceActionMsg(x, ...arg) {
+  switch (x) {
+    case "shield":
+      diceMsg.textContent = `${arg[0]}'s tower took only half the damage!`;
+      break;
+    case "ricochet":
+      diceMsg.textContent = `${arg[0]} reflected the damage to the opponent!`;
+      break;
+    case "heal":
+      diceMsg.textContent = `${arg[0]}'s tower revived by ${arg[1]} HP!`;
+      break;
+    case "swap":
+      diceMsg.textContent = `${arg[0]} swapped the tower's HP with the opponent!`;
+      break;
+  }
+  diceMsg.classList.remove("fade-out");
+  setInterval(() => {
+    diceMsg.classList.add("fade-out");
+  }, 2000);
 }
 
 // Event button
@@ -474,5 +505,5 @@ document.addEventListener("keydown", function (e) {
   }
 });
 
-init();
-gameTimer();
+// init();
+// gameTimer();
