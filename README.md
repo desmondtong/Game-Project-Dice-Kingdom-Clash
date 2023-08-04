@@ -1,3 +1,5 @@
+<img width="1097" alt="image" src="https://github.com/desmondtong/Game-Project-Dice-Kingdom-Clash/assets/107420497/d7edee8c-9531-4c2e-ba0f-325308a7c72e">
+
 # Dice Kingdom Clash
 
 ## Introduction
